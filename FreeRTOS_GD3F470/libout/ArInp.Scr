@@ -1,0 +1,10 @@
+--create ..\libout\freertos_gd32f470.lib
+..\libout\croutine.o
+..\libout\event_groups.o
+..\libout\list.o
+..\libout\queue.o
+..\libout\stream_buffer.o
+..\libout\tasks.o
+..\libout\timers.o
+..\libout\heap_4.o
+..\libout\port.o
