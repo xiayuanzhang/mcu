@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*.c": "c",
+        "rte_components.h": "c",
+        "led.h": "c",
+        "delay.h": "c",
+        "w25qxx.h": "c",
+        "gd32f4xx.h": "c",
+        "lfs.h": "c",
+        "lfs_port.h": "c"
+    }
+}

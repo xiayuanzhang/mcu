@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.c": "c",
+        "w25qxx.h": "c",
+        "initializer_list": "c",
+        "type_traits": "c",
+        "xutility": "c",
+        "lfs_port.h": "c"
+    }
+}
