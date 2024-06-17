@@ -152,34 +152,66 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>90</LineNumber>
+          <LineNumber>120</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134243748</Address>
+          <Address>134245814</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Middle\littlefs-port\lfs_port.c</Filename>
+          <Filename>..\Middle\littlefs-port\lfs_wrtest.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\gd32f470vg_littlefs\../Middle/littlefs-port/lfs_port.c\90</Expression>
+          <Expression>\\gd32f470vg_littlefs\../Middle/littlefs-port/lfs_wrtest.c\120</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>87</LineNumber>
+          <LineNumber>88</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
+          <Address>134245532</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>..\Middle\littlefs-port\lfs_port.c</Filename>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Middle\littlefs-port\lfs_wrtest.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\gd32f470vg_littlefs\../Middle/littlefs-port/lfs_wrtest.c\88</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>93</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134245604</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Middle\littlefs-port\lfs_wrtest.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\gd32f470vg_littlefs\../Middle/littlefs-port/lfs_wrtest.c\93</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>89</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134245536</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Middle\littlefs-port\lfs_wrtest.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\gd32f470vg_littlefs\../Middle/littlefs-port/lfs_wrtest.c\89</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -237,6 +269,11 @@
           <count>10</count>
           <WinNumber>1</WinNumber>
           <ItemText>time,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>boot_count</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -437,6 +474,18 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\Middle\littlefs-port\lfs_port.c</PathWithFileName>
       <FilenameWithoutPath>lfs_port.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>3</GroupNumber>
+      <FileNumber>11</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\Middle\littlefs-port\lfs_wrtest.c</PathWithFileName>
+      <FilenameWithoutPath>lfs_wrtest.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

@@ -444,6 +444,11 @@
               <FileType>1</FileType>
               <FilePath>..\Middle\littlefs-port\lfs_port.c</FilePath>
             </File>
+            <File>
+              <FileName>lfs_wrtest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Middle\littlefs-port\lfs_wrtest.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
