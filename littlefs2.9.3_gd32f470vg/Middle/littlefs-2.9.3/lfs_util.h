@@ -31,7 +31,7 @@
 #define LFS_NO_DEBUG
 #define LFS_NO_WARN
 #define LFS_NO_ERROR
-
+#define LFS_NO_PRINT //自己定义的, 用于关闭printf
 
 
 #ifndef LFS_NO_MALLOC

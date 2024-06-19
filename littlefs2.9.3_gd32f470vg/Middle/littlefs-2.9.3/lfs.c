@@ -6058,6 +6058,7 @@ int lfs_file_open(lfs_t *lfs, lfs_file_t *file, const char *path, int flags) {
     }
     LFS_TRACE("lfs_file_open(%p, %p, \"%s\", %x)",
             (void*)lfs, (void*)file, path, flags);
+            //如果使能了断言, 会通过lfs的mlist检测文件是否已经打开
     LFS_ASSERT(!lfs_mlist_isopen(lfs->mlist, (struct lfs_mlist*)file));
 
     err = lfs_file_open_(lfs, file, path, flags);

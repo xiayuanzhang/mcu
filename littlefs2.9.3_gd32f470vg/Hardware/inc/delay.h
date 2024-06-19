@@ -29,10 +29,10 @@ void time_test_run();
  * - 240MHz 主频, DWT_MAXTIME_S = 16s
  * - 72MHz 主频, DWT_MAXTIME_S = 53s
  */
-uint32_t time_test_gettick();
-uint32_t time_test_getus();
-uint32_t time_test_getms();
-
+float time_test_gettick();
+float time_test_getus();
+float time_test_getms();
+float time_test_gets();
 
 
 

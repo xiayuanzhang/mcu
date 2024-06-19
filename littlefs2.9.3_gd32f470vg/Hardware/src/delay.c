@@ -15,6 +15,7 @@
 
 static uint32_t DWT_TICK_MS = 0;
 static uint32_t DWT_TICK_US = 0;
+static uint32_t DWT_MAXTIME_S = 0;
 static uint32_t DWT_MAXTIME_MS = 0;
 static uint32_t DWT_MAXTIME_US = 0;
 
@@ -33,6 +34,7 @@ void dwt_init(void)
     /* 使能Cortex-M DWT CYCCNT寄存器 */
     DWT_CR |= (uint32_t)DWT_CR_CYCCNTENA;
 	
+	DWT_MAXTIME_S = MAX_TICK / DWT_TICK;
     DWT_TICK_MS = DWT_TICK / 1000;
     DWT_TICK_US = DWT_TICK / 1000000;
     DWT_MAXTIME_MS = MAX_TICK / DWT_TICK_MS;
@@ -81,21 +83,25 @@ void time_test_run()
 }
 
 
-uint32_t time_test_gettick()
+float time_test_gettick()
 {
-    return DWT_CYCCNT;
+    return (float)DWT_CYCCNT;
 }
 
-uint32_t time_test_getus()
+float time_test_getus()
 {
-    return DWT_CYCCNT / DWT_TICK_US;
+    return (float)DWT_CYCCNT / DWT_TICK_US;
 }
 
-uint32_t time_test_getms()
+float time_test_getms()
 {
-    return DWT_CYCCNT / DWT_TICK_MS;
+    return (float)DWT_CYCCNT / DWT_TICK_MS;
 }
 
+float time_test_gets()
+{
+    return (float)DWT_CYCCNT / DWT_TICK;
+}
 
 
 

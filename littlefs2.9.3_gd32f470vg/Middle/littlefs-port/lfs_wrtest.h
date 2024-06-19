@@ -3,7 +3,7 @@
 
 #include "lfs_port.h"
 
-void lfs_wrtest(void);
+void mlfs_wrtest(void);
 
 #endif // _LFS_WRTEST_H_
 

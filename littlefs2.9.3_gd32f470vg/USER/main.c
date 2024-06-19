@@ -10,9 +10,10 @@ int main(void)
 	led_init();
 	dwt_init();
 
-    lfs_init();
 	
-	lfs_wrtest();
+    mlfs_init();
+	
+	mlfs_wrtest();
 	while(1)
 	{
 		LED_MCU_TOG;

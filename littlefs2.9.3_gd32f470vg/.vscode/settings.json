@@ -7,6 +7,7 @@
         "w25qxx.h": "c",
         "gd32f4xx.h": "c",
         "lfs.h": "c",
-        "lfs_port.h": "c"
+        "lfs_port.h": "c",
+        "lfs_util.h": "c"
     }
 }
