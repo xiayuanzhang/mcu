@@ -80,7 +80,8 @@ void result_reset(void)
 // TEST_MODE = 1 覆盖式的读写测试
 // TEST_MODE = 2 追加式的读写测试
 // TEST_MODE = 3 同等大小的文件,创建多个文件测试文件系统多写入的影响
-#define TEST_MODE 2
+// TEST_MODE = 4 直接操作flash进行读写速度测试
+#define TEST_MODE 4
 
 #if TEST_MODE == 0
 void mlfs_wrtest(void)
@@ -196,10 +197,9 @@ void mlfs_wrtest(void)
     lfs_file_close(&disk0, &file);
     time_reulst[11] = time_test_gets();
     result[5] = buffer_check(128 * 1024);
-	
-	
-	volatile int e1=0,e2=0;
-	// 强制格式化
+
+    volatile int e1 = 0, e2 = 0;
+    // 强制格式化
     e1 = lfs_format(&disk0, &disk0_w25q256);
     e2 = lfs_mount(&disk0, &disk0_w25q256);
 
@@ -230,7 +230,7 @@ void mlfs_wrtest(void)
     speed_kb_s[9] = 8192 / time_reulst[9] / 1024;         //  8192B read
     speed_kb_s[10] = 128 * 1024 / time_reulst[10] / 1024; //  128Kb write
     speed_kb_s[11] = 128 * 1024 / time_reulst[11] / 1024; //  128Kb read
-	speed_kb_s[12] = 111 * 1024 / time_reulst[12] / 1024; //  111Kb write
+    speed_kb_s[12] = 111 * 1024 / time_reulst[12] / 1024; //  111Kb write
     speed_kb_s[13] = 111 * 1024 / time_reulst[13] / 1024; //  111Kb read
     mlfs_ls(&disk0, "/");
 }
@@ -275,93 +275,93 @@ void mlfs_wrtest(void)
     lfs_file_write(&disk0, &file, test_buffer, 128 * 1024);
     lfs_file_close(&disk0, &file);
 
-	lfs_file_open(&disk0, &file, "test_128B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&disk0, &file, test_buffer, 128);
-        lfs_file_close(&disk0, &file);
+    lfs_file_open(&disk0, &file, "test_128B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_write(&disk0, &file, test_buffer, 128);
+    lfs_file_close(&disk0, &file);
 
-        buffer_set();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_128B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&disk0, &file, test_buffer, 128);
-        lfs_file_close(&disk0, &file);
-        time_reulst[0] = time_test_gets();
-        buffer_clear();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_128B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_read(&disk0, &file, test_buffer, 128);
-        lfs_file_close(&disk0, &file);
-        time_reulst[1] = time_test_gets();
-        result[0] = buffer_check(128);
+    buffer_set();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_128B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_write(&disk0, &file, test_buffer, 128);
+    lfs_file_close(&disk0, &file);
+    time_reulst[0] = time_test_gets();
+    buffer_clear();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_128B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&disk0, &file, test_buffer, 128);
+    lfs_file_close(&disk0, &file);
+    time_reulst[1] = time_test_gets();
+    result[0] = buffer_check(128);
 
-        buffer_set();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_256B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&disk0, &file, test_buffer, 256);
-        lfs_file_close(&disk0, &file);
-        time_reulst[2] = time_test_gets();
-        buffer_clear();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_256B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_read(&disk0, &file, test_buffer, 256);
-        lfs_file_close(&disk0, &file);
-        time_reulst[3] = time_test_gets();
-        result[1] = buffer_check(256);
+    buffer_set();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_256B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_write(&disk0, &file, test_buffer, 256);
+    lfs_file_close(&disk0, &file);
+    time_reulst[2] = time_test_gets();
+    buffer_clear();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_256B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&disk0, &file, test_buffer, 256);
+    lfs_file_close(&disk0, &file);
+    time_reulst[3] = time_test_gets();
+    result[1] = buffer_check(256);
 
-        buffer_set();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_700B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&disk0, &file, test_buffer, 700);
-        lfs_file_close(&disk0, &file);
-        time_reulst[4] = time_test_gets();
-        buffer_clear();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_700B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_read(&disk0, &file, test_buffer, 700);
-        lfs_file_close(&disk0, &file);
-        time_reulst[5] = time_test_gets();
-        result[2] = buffer_check(700);
+    buffer_set();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_700B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_write(&disk0, &file, test_buffer, 700);
+    lfs_file_close(&disk0, &file);
+    time_reulst[4] = time_test_gets();
+    buffer_clear();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_700B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&disk0, &file, test_buffer, 700);
+    lfs_file_close(&disk0, &file);
+    time_reulst[5] = time_test_gets();
+    result[2] = buffer_check(700);
 
-        buffer_set();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_2048B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&disk0, &file, test_buffer, 2048);
-        lfs_file_close(&disk0, &file);
-        time_reulst[6] = time_test_gets();
-        buffer_clear();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_2048B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_read(&disk0, &file, test_buffer, 2048);
-        lfs_file_close(&disk0, &file);
-        time_reulst[7] = time_test_gets();
-        result[3] = buffer_check(2048);
+    buffer_set();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_2048B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_write(&disk0, &file, test_buffer, 2048);
+    lfs_file_close(&disk0, &file);
+    time_reulst[6] = time_test_gets();
+    buffer_clear();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_2048B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&disk0, &file, test_buffer, 2048);
+    lfs_file_close(&disk0, &file);
+    time_reulst[7] = time_test_gets();
+    result[3] = buffer_check(2048);
 
-        buffer_set();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_8192B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&disk0, &file, test_buffer, 8192);
-        lfs_file_close(&disk0, &file);
-        time_reulst[8] = time_test_gets();
-        buffer_clear();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_8192B", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_read(&disk0, &file, test_buffer, 8192);
-        lfs_file_close(&disk0, &file);
-        time_reulst[9] = time_test_gets();
-        result[4] = buffer_check(8192);
+    buffer_set();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_8192B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_write(&disk0, &file, test_buffer, 8192);
+    lfs_file_close(&disk0, &file);
+    time_reulst[8] = time_test_gets();
+    buffer_clear();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_8192B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&disk0, &file, test_buffer, 8192);
+    lfs_file_close(&disk0, &file);
+    time_reulst[9] = time_test_gets();
+    result[4] = buffer_check(8192);
 
-        buffer_set();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_128K", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_write(&disk0, &file, test_buffer, 128 * 1024);
-        lfs_file_close(&disk0, &file);
-        time_reulst[10] = time_test_gets();
-        buffer_clear();
-        time_test_run();
-        lfs_file_open(&disk0, &file, "test_128K", LFS_O_RDWR | LFS_O_CREAT);
-        lfs_file_read(&disk0, &file, test_buffer, 128 * 1024);
-        lfs_file_close(&disk0, &file);
-        time_reulst[11] = time_test_gets();
-        result[5] = buffer_check(128 * 1024);
+    buffer_set();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_128K", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_write(&disk0, &file, test_buffer, 128 * 1024);
+    lfs_file_close(&disk0, &file);
+    time_reulst[10] = time_test_gets();
+    buffer_clear();
+    time_test_run();
+    lfs_file_open(&disk0, &file, "test_128K", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_read(&disk0, &file, test_buffer, 128 * 1024);
+    lfs_file_close(&disk0, &file);
+    time_reulst[11] = time_test_gets();
+    result[5] = buffer_check(128 * 1024);
 
     // kb/s
     speed_kb_s[0] = 128 / time_reulst[0] / 1024;          //  128B write
@@ -419,92 +419,112 @@ void mlfs_wrtest(void)
     lfs_file_write(&disk0, &file, test_buffer, 128 * 1024);
     lfs_file_close(&disk0, &file);
 
-	lfs_file_open(&disk0, &file, "test_128B", LFS_O_RDWR | LFS_O_CREAT);
+    lfs_file_open(&disk0, &file, "test_128B", LFS_O_RDWR | LFS_O_CREAT);
     lfs_file_write(&disk0, &file, test_buffer, 128);
     lfs_file_close(&disk0, &file);
-	
+
     buffer_set();
-    time_test_run();
+
     lfs_file_open(&disk0, &file, "test_128B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
     lfs_file_write(&disk0, &file, test_buffer, 128);
-    lfs_file_close(&disk0, &file);
     time_reulst[0] = time_test_gets();
-    buffer_clear();
-    time_test_run();
-    lfs_file_open(&disk0, &file, "test_128B", LFS_O_APPEND | LFS_O_CREAT);
-    lfs_file_read(&disk0, &file, test_buffer, 128);
     lfs_file_close(&disk0, &file);
+    buffer_clear();
+
+    lfs_file_open(&disk0, &file, "test_128B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
+    lfs_file_read(&disk0, &file, test_buffer, 128);
     time_reulst[1] = time_test_gets();
+    lfs_file_close(&disk0, &file);
     result[0] = buffer_check(128);
 
     buffer_set();
-    time_test_run();
+
     lfs_file_open(&disk0, &file, "test_256B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
     lfs_file_write(&disk0, &file, test_buffer, 256);
-    lfs_file_close(&disk0, &file);
     time_reulst[2] = time_test_gets();
-    buffer_clear();
-    time_test_run();
-    lfs_file_open(&disk0, &file, "test_256B", LFS_O_APPEND | LFS_O_CREAT);
-    lfs_file_read(&disk0, &file, test_buffer, 256);
     lfs_file_close(&disk0, &file);
+    buffer_clear();
+
+    lfs_file_open(&disk0, &file, "test_256B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
+    lfs_file_read(&disk0, &file, test_buffer, 256);
     time_reulst[3] = time_test_gets();
+    lfs_file_close(&disk0, &file);
     result[1] = buffer_check(256);
 
     buffer_set();
-    time_test_run();
+
     lfs_file_open(&disk0, &file, "test_700B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
     lfs_file_write(&disk0, &file, test_buffer, 700);
-    lfs_file_close(&disk0, &file);
     time_reulst[4] = time_test_gets();
-    buffer_clear();
-    time_test_run();
-    lfs_file_open(&disk0, &file, "test_700B", LFS_O_APPEND | LFS_O_CREAT);
-    lfs_file_read(&disk0, &file, test_buffer, 700);
     lfs_file_close(&disk0, &file);
+
+    buffer_clear();
+
+    lfs_file_open(&disk0, &file, "test_700B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
+    lfs_file_read(&disk0, &file, test_buffer, 700);
     time_reulst[5] = time_test_gets();
+    lfs_file_close(&disk0, &file);
+
     result[2] = buffer_check(700);
 
     buffer_set();
-    time_test_run();
+
     lfs_file_open(&disk0, &file, "test_2048B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
     lfs_file_write(&disk0, &file, test_buffer, 2048);
-    lfs_file_close(&disk0, &file);
     time_reulst[6] = time_test_gets();
-    buffer_clear();
-    time_test_run();
-    lfs_file_open(&disk0, &file, "test_2048B", LFS_O_APPEND | LFS_O_CREAT);
-    lfs_file_read(&disk0, &file, test_buffer, 2048);
     lfs_file_close(&disk0, &file);
+
+    buffer_clear();
+
+    lfs_file_open(&disk0, &file, "test_2048B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
+    lfs_file_read(&disk0, &file, test_buffer, 2048);
     time_reulst[7] = time_test_gets();
+    lfs_file_close(&disk0, &file);
+
     result[3] = buffer_check(2048);
 
     buffer_set();
-    time_test_run();
+
     lfs_file_open(&disk0, &file, "test_8192B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
     lfs_file_write(&disk0, &file, test_buffer, 8192);
-    lfs_file_close(&disk0, &file);
     time_reulst[8] = time_test_gets();
-    buffer_clear();
-    time_test_run();
-    lfs_file_open(&disk0, &file, "test_8192B", LFS_O_APPEND | LFS_O_CREAT);
-    lfs_file_read(&disk0, &file, test_buffer, 8192);
     lfs_file_close(&disk0, &file);
+
+    buffer_clear();
+
+    lfs_file_open(&disk0, &file, "test_8192B", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
+    lfs_file_read(&disk0, &file, test_buffer, 8192);
     time_reulst[9] = time_test_gets();
+    lfs_file_close(&disk0, &file);
+
     result[4] = buffer_check(8192);
 
     buffer_set();
-    time_test_run();
+
     lfs_file_open(&disk0, &file, "test_128K", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
     lfs_file_write(&disk0, &file, test_buffer, 128 * 1024);
-    lfs_file_close(&disk0, &file);
     time_reulst[10] = time_test_gets();
-    buffer_clear();
-    time_test_run();
-    lfs_file_open(&disk0, &file, "test_128K", LFS_O_APPEND | LFS_O_CREAT);
-    lfs_file_read(&disk0, &file, test_buffer, 128 * 1024);
     lfs_file_close(&disk0, &file);
+
+    buffer_clear();
+
+    lfs_file_open(&disk0, &file, "test_128K", LFS_O_APPEND | LFS_O_CREAT);
+    time_test_run();
+    lfs_file_read(&disk0, &file, test_buffer, 128 * 1024);
     time_reulst[11] = time_test_gets();
+    lfs_file_close(&disk0, &file);
+
     result[5] = buffer_check(128 * 1024);
 
     // kb/s
@@ -546,7 +566,6 @@ void mlfs_wrtest(void)
     lfs_file_close(&disk0, &file);
     time_reulst[1] = time_test_gets();
     result[0] = buffer_check(128);
-
 
     buffer_set();
     time_test_run();
@@ -605,7 +624,6 @@ void mlfs_wrtest(void)
     time_reulst[9] = time_test_gets();
     result[4] = buffer_check(128);
 
-
     buffer_set();
     time_test_run();
     lfs_file_open(&disk0, &file, "test_128K", LFS_O_RDWR | LFS_O_CREAT);
@@ -633,7 +651,6 @@ void mlfs_wrtest(void)
     lfs_file_close(&disk0, &file);
     time_reulst[13] = time_test_gets();
     result[6] = buffer_check(128);
-
 
     time_test_run();
     lfs_file_open(&disk0, &file, "test_12812K", LFS_O_RDWR | LFS_O_CREAT);
@@ -667,19 +684,18 @@ void mlfs_wrtest(void)
     lfs_file_read(&disk0, &file, test_buffer, 128);
     lfs_file_close(&disk0, &file);
     time_reulst[19] = time_test_gets();
-	
 
     // kb/s
-    speed_kb_s[0] = 128 / time_reulst[0] / 1024;          //  128B write
-    speed_kb_s[1] = 128 / time_reulst[1] / 1024;          //  128B read
-    speed_kb_s[2] = 128 / time_reulst[2] / 1024;          //  256B write
-    speed_kb_s[3] = 128 / time_reulst[3] / 1024;          //  256B read
-    speed_kb_s[4] = 128 / time_reulst[4] / 1024;          //  700B write
-    speed_kb_s[5] = 128 / time_reulst[5] / 1024;          //  700B read
-    speed_kb_s[6] = 128 / time_reulst[6] / 1024;         //  2048B write
-    speed_kb_s[7] = 128 / time_reulst[7] / 1024;         //  2048B read
-    speed_kb_s[8] = 128 / time_reulst[8] / 1024;         //  8192B write
-    speed_kb_s[9] = 128 / time_reulst[9] / 1024;         //  8192B read
+    speed_kb_s[0] = 128 / time_reulst[0] / 1024;   //  128B write
+    speed_kb_s[1] = 128 / time_reulst[1] / 1024;   //  128B read
+    speed_kb_s[2] = 128 / time_reulst[2] / 1024;   //  256B write
+    speed_kb_s[3] = 128 / time_reulst[3] / 1024;   //  256B read
+    speed_kb_s[4] = 128 / time_reulst[4] / 1024;   //  700B write
+    speed_kb_s[5] = 128 / time_reulst[5] / 1024;   //  700B read
+    speed_kb_s[6] = 128 / time_reulst[6] / 1024;   //  2048B write
+    speed_kb_s[7] = 128 / time_reulst[7] / 1024;   //  2048B read
+    speed_kb_s[8] = 128 / time_reulst[8] / 1024;   //  8192B write
+    speed_kb_s[9] = 128 / time_reulst[9] / 1024;   //  8192B read
     speed_kb_s[10] = 128 / time_reulst[10] / 1024; //  128Kb write
     speed_kb_s[11] = 128 / time_reulst[11] / 1024; //  128Kb read
     speed_kb_s[12] = 128 / time_reulst[12] / 1024; //  128Kb write
@@ -693,7 +709,80 @@ void mlfs_wrtest(void)
     mlfs_ls(&disk0, "/");
 }
 
+#elif TEST_MODE == 4
+#include "w25qxx.h"
+void mlfs_wrtest(void)
+{
+    //擦除芯片
+    SPI_FLASH_64kBlockErase(0x000000);
+    SPI_FLASH_64kBlockErase(0x010000);
+    SPI_FLASH_64kBlockErase(0x020000);
+    SPI_FLASH_64kBlockErase(0x030000);
+
+    buffer_set();
+
+    time_test_run();
+    SPI_FLASH_BufferWrite((uint8_t*)test_buffer, 0x000000, 128);
+    time_reulst[0] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferRead((uint8_t*)test_buffer, 0x000000, 128);
+    time_reulst[1] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferWrite((uint8_t*)test_buffer, 0x01000, 256);
+    time_reulst[2] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferRead((uint8_t*)test_buffer, 0x01000, 256);
+    time_reulst[3] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferWrite((uint8_t*)test_buffer, 0x002000, 700);
+    time_reulst[4] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferRead((uint8_t*)test_buffer, 0x002000, 700);
+    time_reulst[5] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferWrite((uint8_t*)test_buffer, 0x003000, 2048);
+    time_reulst[6] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferRead((uint8_t*)test_buffer, 0x003000, 2048);
+    time_reulst[7] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferWrite((uint8_t*)test_buffer, 0x004000, 8192);
+    time_reulst[8] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferRead((uint8_t*)test_buffer, 0x004000, 8192);
+    time_reulst[9] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferWrite((uint8_t*)test_buffer, 0x010000, 65530);
+    time_reulst[10] = time_test_gets();
+
+    time_test_run();
+    SPI_FLASH_BufferRead((uint8_t*)test_buffer, 0x010000, 65530);
+
+    time_reulst[11] = time_test_gets();
+
+    speed_kb_s[0] = 128 / time_reulst[0] / 1024;          //  128B write
+    speed_kb_s[1] = 128 / time_reulst[1] / 1024;          //  128B read
+    speed_kb_s[2] = 256 / time_reulst[2] / 1024;          //  256B write
+    speed_kb_s[3] = 256 / time_reulst[3] / 1024;          //  256B read
+    speed_kb_s[4] = 700 / time_reulst[4] / 1024;          //  700B write
+    speed_kb_s[5] = 700 / time_reulst[5] / 1024;          //  700B read
+    speed_kb_s[6] = 2048 / time_reulst[6] / 1024;         //  2048B write
+    speed_kb_s[7] = 2048 / time_reulst[7] / 1024;         //  2048B read
+    speed_kb_s[8] = 8192 / time_reulst[8] / 1024;         //  8192B write
+    speed_kb_s[9] = 8192 / time_reulst[9] / 1024;         //  8192B read
+    speed_kb_s[10] = 65530 / time_reulst[10] / 1024; //  128Kb write
+    speed_kb_s[11] = 65530 / time_reulst[11] / 1024; //  128Kb read
+
+}
 
 #endif
-
-
