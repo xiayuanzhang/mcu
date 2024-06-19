@@ -7,10 +7,6 @@ https://github.com/xiayuanzhang/arm_study
 
 
 
-# 项目记录
+# 项目组织规范
+1. 以芯片或开发板信号进行分类,创建文件夹
 1. 工程名称为: 功能_开发板[芯片型号]_备注
-
-|工程名称|功能简介|分类|
-|---|---|
-|dwt_delay_gd32f470vg|使用cortex-m内核调试计时器dwt, 完成ms和us的延时函数, 并且完成高精度的程序运行时间测量函数|外设驱动|
-|liitlefs_gd32f470vg|littfs移植的示例工程|中间层|

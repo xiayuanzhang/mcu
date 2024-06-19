@@ -1,4 +1,0 @@
---create .\Objects\led1.lib
-.\objects\bsp_led1.o
-.\objects\gd32f4xx_gpio.o
-.\objects\gd32f4xx_rcu.o
