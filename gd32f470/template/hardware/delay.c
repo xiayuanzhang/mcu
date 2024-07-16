@@ -13,14 +13,12 @@
  */
 #include "delay.h"
 
-static uint32_t DWT_TICK_MS = 0;
-static uint32_t DWT_TICK_US = 0;
-static uint32_t DWT_MAXTIME_MS = 0;
-static uint32_t DWT_MAXTIME_US = 0;
+static float US_TICK = 0;
 
 //不能使用0xffffffff计算最大值, 要留有足够的时间余量, 才能够使while判断正确
 //如果出现程序一直在delay函数中的delay中等到, 应该将该值继续减小.
 const uint32_t MAX_TICK = 0xF0000000;
+static uint32_t DWT_MAXTIME_US = 0;
 
 void dwt_init(void)
 {
@@ -33,10 +31,8 @@ void dwt_init(void)
     /* 使能Cortex-M DWT CYCCNT寄存器 */
     DWT_CR |= (uint32_t)DWT_CR_CYCCNTENA;
 	
-    DWT_TICK_MS = DWT_TICK / 1000;
-    DWT_TICK_US = DWT_TICK / 1000000;
-    DWT_MAXTIME_MS = MAX_TICK / DWT_TICK_MS;
-    DWT_MAXTIME_US = MAX_TICK / DWT_TICK_US;
+    US_TICK = DWT_TICK / 1000000;
+    DWT_MAXTIME_US = MAX_TICK / US_TICK;
 }
 
 
@@ -53,25 +49,20 @@ void delay_us(uint32_t us)
         while(DWT_CYCCNT - start < MAX_TICK);
     }
     start = DWT_CYCCNT;
-    ticks = us * DWT_TICK_US;
+    ticks = us * US_TICK;
     while(DWT_CYCCNT - start < ticks);
 }
 
 
 void delay_ms(uint32_t ms)
 {
-    uint32_t count = 0,start = 0,ticks = 0;
-    if(ms > DWT_MAXTIME_MS){
-        count = ms / DWT_MAXTIME_MS;
-        ms = ms % DWT_MAXTIME_MS;
-    }
-    for(uint32_t i = 0; i < count; i++){
-        start = DWT_CYCCNT;
-        while(DWT_CYCCNT - start < MAX_TICK);
-    }
-    start = DWT_CYCCNT;
-    ticks = ms * DWT_TICK_MS;
-    while(DWT_CYCCNT - start < ticks);
+	delay_us(ms*1000);
+}
+
+
+void delay(float s)
+{
+    delay_us(s * 1000000);
 }
 
 
@@ -86,16 +77,25 @@ uint32_t time_test_gettick()
     return DWT_CYCCNT;
 }
 
-uint32_t time_test_getus()
+float time_test_getns()
 {
-    return DWT_CYCCNT / DWT_TICK_US;
+    return time_test_gets()*1000000000.0f;
 }
 
-uint32_t time_test_getms()
+float time_test_getus()
 {
-    return DWT_CYCCNT / DWT_TICK_MS;
+    return time_test_gets()*1000000.0f;
 }
 
+float time_test_getms()
+{
+    return time_test_gets()*1000.0f;
+}
+
+float time_test_gets()
+{
+    return (float)DWT_CYCCNT / DWT_TICK;
+}
 
 
 

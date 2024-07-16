@@ -1,7 +1,9 @@
 #include "led.h"
 #include "delay.h"
 
-volatile uint32_t dwt  = 0;
+volatile float dwt  = 0;
+volatile float dwt2  = 0;
+volatile float dwt3  = 0;
 int main(void)
 {
 	led_init();
@@ -10,10 +12,16 @@ int main(void)
 	while(1)
 	{
 		time_test_run();
-		delay_ms(20000);
-		LED_MCU_TOG;
-		dwt = time_test_getms();
+		delay_us(1);
+		dwt = time_test_gets();
 		
+		time_test_run();
+		delay_ms(1000);
+		dwt2 = time_test_gets();
+		
+		time_test_run();
+		delay(1);
+		dwt3 = time_test_gets();
 	}
 }
 
