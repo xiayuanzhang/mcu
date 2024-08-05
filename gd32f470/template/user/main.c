@@ -4,6 +4,11 @@
 volatile float dwt  = 0;
 volatile float dwt2  = 0;
 volatile float dwt3  = 0;
+
+const uint32_t ys = 100;
+uint8_t test[ys];
+
+
 int main(void)
 {
 	led_init();
