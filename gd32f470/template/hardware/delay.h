@@ -23,10 +23,14 @@ void delay_ms(uint32_t ms);
  */
 void delay(float s);
 
+
+
+
 /**
  * \brief 函数运行时间测量
  */
 void time_test_run();
+
 
 /**
  * \brief 函数测量的最大时间为 1/DWT_TICK * 0xffffffff, 如果超过该时间或者接近该时间可能是错误的结果
@@ -34,11 +38,9 @@ void time_test_run();
  * - 480MHz 主频, DWT_MAXTIME_S = 8s
  * - 240MHz 主频, DWT_MAXTIME_S = 16s
  * - 72MHz 主频, DWT_MAXTIME_S = 53s
+ * 
+ * \return float 函数运行时间测试结果, 单位 s
  */
-uint32_t time_test_gettick();
-float time_test_getns();
-float time_test_getus();
-float time_test_getms();
-float time_test_gets();
+float time_test_get();
 
 #endif // _DELAY_H_

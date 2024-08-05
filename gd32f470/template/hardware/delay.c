@@ -72,27 +72,7 @@ void time_test_run()
 }
 
 
-uint32_t time_test_gettick()
-{
-    return DWT_CYCCNT;
-}
-
-float time_test_getns()
-{
-    return time_test_gets()*1000000000.0f;
-}
-
-float time_test_getus()
-{
-    return time_test_gets()*1000000.0f;
-}
-
-float time_test_getms()
-{
-    return time_test_gets()*1000.0f;
-}
-
-float time_test_gets()
+float time_test_get()
 {
     return (float)DWT_CYCCNT / DWT_TICK;
 }
