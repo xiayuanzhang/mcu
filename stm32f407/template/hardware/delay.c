@@ -32,7 +32,8 @@ void dwt_init(void)
     DWT_CR |= (uint32_t)DWT_CR_CYCCNTENA;
 	
     US_TICK = DWT_TICK / 1000000;
-    DWT_MAXTIME_US = MAX_TICK / US_TICK;
+	
+	 DWT_MAXTIME_US = MAX_TICK / US_TICK;
 }
 
 

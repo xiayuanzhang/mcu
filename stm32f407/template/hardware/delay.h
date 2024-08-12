@@ -1,6 +1,7 @@
 #ifndef _DELAY_H_
 #define _DELAY_H_
-#include "gd32f4xx.h"
+#include <stdint.h>
+#include "stm32f4xx.h"
 
 
 #define  DWT_CR      *(__IO uint32_t *)0xE0001000  //DWT使能运行寄存器 (DWT)
