@@ -1,3 +1,15 @@
+/**
+ * **********************************************************************
+ * \file delay.h
+ * \date 2024-06-14
+ * \version 1.0
+ * \author fyuan (208793439@qq.com)
+ * \copyright Copyright (c) 2024  xxxcompany
+ * 
+ * \brief 
+ * 
+ * **********************************************************************
+ */
 #ifndef _DELAY_H_
 #define _DELAY_H_
 #include <stdint.h>

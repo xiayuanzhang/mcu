@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\user;..\std\core;..\std\stm_stdlib\inc;..\hardware</IncludePath>
+              <IncludePath>..\user;..\std\core;..\std\stm_stdlib\inc;..\hardware;..\hardware\yplot</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -623,6 +623,16 @@
               <FileName>usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\hardware\usart.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>hardware/yplot</GroupName>
+          <Files>
+            <File>
+              <FileName>yplot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\hardware\yplot\yplot.c</FilePath>
             </File>
           </Files>
         </Group>

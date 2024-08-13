@@ -1,17 +1,19 @@
 /**
- * \copyright Copyright (c) 2024  xxxcompany
+ * **********************************************************************
  * \file delay.c
  * \date 2024-06-14
- * \author fyuan (xxx@email.com)
+ * \version 1.0
+ * \author fyuan (208793439@qq.com)
+ * \copyright Copyright (c) 2024  xxxcompany
  * 
  * \brief 
- * 该文件使用 DWT 计时器来完成us,ms级延时. 并且提供函数运行时间测量函数.
- * 
- * DWT计时器和systick一样,是cortex-m内核的寄存器,所以不受限于芯片
- *
- * DWT计时器的时钟频率为系统时钟频率
+ * 1. 该文件使用 DWT 计时器来完成us,ms级延时. 并且提供函数运行时间测量函数.
+ * 2. DWT计时器和systick一样,是cortex-m内核的寄存器,所以不受限于芯片
+ * 3. DWT计时器的时钟频率为系统时钟频率
+ * **********************************************************************
  */
 #include "delay.h"
+
 
 static float US_TICK = 0;
 
