@@ -5,27 +5,16 @@
 #include "yplot.h"
 #include <math.h>
 
-uint8_t rxbuffer[1024];
-uint8_t txbuffer[256];
-
-yplot_config_t yplot_config = {
-    .write = usart2_write_bytes,
-    .rxbuffer = rxbuffer,
-    .rxbuffer_len = 1024,
-    .txbuffer = txbuffer,
-    .txbuffer_len = 256,
-};
 
 float plot[8];
 float x = 0;
-uint8_t rx_temp_test[256];
+uint8_t rx_temp_test[512];
 int main(void)
 {
     dwt_init();
     usart2_init(115200);
     led_init();
 
-    yplot_init(&yplot_config);
 
     while (1)
     {

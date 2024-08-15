@@ -14,7 +14,7 @@
 
 //解析出的一帧数据会暂存在一个缓存数组中, 通过该宏定义缓存数组的长度. 
 //建议设置为 大于 上位机会下发的指令的最大长度. 否则可能导致解析的一帧数据不完整
-//会占用 YPLOT_FRAME_TEMP_LEN (byte) 的 RAM
+//不会占用RAM空间, 会占用 stack 空间
 #define YPLOT_FRAME_TEMP_LEN 128
 
 

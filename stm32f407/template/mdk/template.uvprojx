@@ -629,6 +629,11 @@
               <FileType>1</FileType>
               <FilePath>..\hardware\yplot\yplot.c</FilePath>
             </File>
+            <File>
+              <FileName>yplot_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\hardware\yplot\yplot_config.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

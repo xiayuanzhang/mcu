@@ -18,32 +18,17 @@
 
 
 typedef struct{
-    void (*write)(uint8_t *data, uint16_t len); ///< yplot调用的发送函数的指针
-
-    uint8_t *rxbuffer; ///< yplot的接收缓冲区, 建议大小至少为, (3*上位机会下发的指令的最大长度)byte. 设置太小会导致接收数据丢失.
-    uint16_t rxbuffer_len; ///< yplot的接收缓冲区大小, 即rxbuffer数组的长度.
-
-    uint8_t *txbuffer; ///< yplot的发送缓冲区, yplot发送数据时会将用户输入数据使用通信协议打包数据后存储在发送缓冲区中. 建议大小至少为 (10 + 发送的最大的数据长度)byte
-    uint16_t txbuffer_len; ///< yplot的发送缓冲区大小, 即txbuffer数组的长度
-}yplot_config_t;
-
-
-
-typedef struct{
     //head = 0xAA
     uint16_t head;
     uint16_t tail;
-    uint16_t rxbuffer_len;
-    uint8_t *rxbuffer;
-
-    uint16_t last_analysis_len; ///< 上一次解析成功的数据的长度(data_len+4)
+    uint8_t rxbuffer[YPLOT_RXQUEUE_LEN];
 }yplot_rxqueue_t;
 
 typedef struct 
 {
     uint8_t id;
     uint16_t len;
-    uint8_t *data;
+    uint8_t data[YPLOT_FRAME_TEMP_LEN];
 }yplot_rxframe_t;
 
 
@@ -64,9 +49,6 @@ enum {
     YPLOT_FULL = 3,
 };
 
-
-
-uint8_t yplot_init(yplot_config_t *config);
 
 /**
  * \brief 发送plot的name, 一般使用多少个通道发送多少个name, 数量不一致也不会出错.
@@ -107,19 +89,19 @@ uint8_t yplot_waring(const char *fmt, ...);
 
 
 /**
- * \brief 向 yplot 的接收缓存区中写入一个字节, 可以在串口接收中断中调用. 缓存区满时不会写入数据,因此需要及时调用yplot_analyse函数解析数据
+ * \brief 向 yplot 的接收缓存区中写入一个字节, 可以在串口接收中断中调用. 
+ * 缓存区满时会覆盖最早的数据,因此需要及时调用yplot_analyse函数解析数据
  * \param data  串口接收到的数据
- * \return uint8_t  YPLOT_OK: 成功, YPLOT_ERR: 失败, YPLOT_FULL: 缓冲区满
  */
-uint8_t yplot_readdata(uint8_t data);
+void yplot_readdata(uint8_t data);
 
 /**
- * \brief 从 yplot 的接收缓存区中读取数据, 可以在DMA接收中断中调用. 缓存区满时不会写入数据,因此需要及时调用yplot_analyse函数解析数据
+ * \brief 从 yplot 的接收缓存区中读取数据, 可以在DMA接收中断中调用. 
+ * 缓存区满时会覆盖最早的数据,因此需要及时调用yplot_analyse函数解析数据
  * \param data  串口接收到的数据
  * \param len   数据长度
- * \return uint8_t  YPLOT_OK: 成功, YPLOT_ERR: 失败, YPLOT_FULL: 缓冲区满
  */
-uint8_t yplot_readdatas(uint8_t *data, uint16_t len);
+void yplot_readdatas(uint8_t *data, uint16_t len);
 
 /**
  * \brief 解析 yplot 的接收缓存区中的数据, 可在main函数中轮询调用
