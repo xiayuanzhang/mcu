@@ -1,6 +1,6 @@
 #include "sys.h"
 #include "usart.h"
-
+#include "yplot.h"
 
 // 重定义fputc函数
 int fputc(int ch, FILE *f)
@@ -140,5 +140,6 @@ void USART2_IRQHandler(void) // 串口2中断服务程序
     if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET) // 接收中断(接收到的数据必须是0x0d 0x0a结尾)
     {
         Res = USART_ReceiveData(USART2); //(USART1->DR);	//读取接收到的数据
+				yplot_readdata(Res);
     }
 }

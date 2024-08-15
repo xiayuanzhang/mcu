@@ -595,11 +595,6 @@
           <GroupName>hardware</GroupName>
           <Files>
             <File>
-              <FileName>beep.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\hardware\beep.c</FilePath>
-            </File>
-            <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\hardware\delay.c</FilePath>

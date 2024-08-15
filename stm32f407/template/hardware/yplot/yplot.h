@@ -13,8 +13,7 @@
 #ifndef _YPLOT_H_
 #define _YPLOT_H_
 
-#include <stdint.h>
-#include <string.h>
+#include "yplot_config.h"
 
 
 
@@ -40,15 +39,22 @@ typedef struct{
     uint16_t last_analysis_len; ///< 上一次解析成功的数据的长度(data_len+4)
 }yplot_rxqueue_t;
 
+typedef struct 
+{
+    uint8_t id;
+    uint16_t len;
+    uint8_t *data;
+}yplot_rxframe_t;
+
 
 enum{
-    YPLOT_ID_PLOTNAME = 0x01,
-    YPLOT_ID_PLOT = 0x02,
-    YPLOT_ID_INFO = 0x03,
-    YPLOT_ID_DEBUG = 0x04,
-    YPLOT_ID_WARNING = 0x05,
+    YPLOT_ID_PLOTNAME = 0x01, ///< 向上位机发送plot的name
+    YPLOT_ID_PLOT = 0x02, ///< 向上位机发送plot数据
+    YPLOT_ID_INFO = 0x03, ///< 向上位机发送info信息
+    YPLOT_ID_DEBUG = 0x04, ///< 向上位机发送debug信息
+    YPLOT_ID_WARNING = 0x05, ///< 向上位机发送warning信息
 
-    YPLOT_ID_SENDCMD = 0x10,
+    YPLOT_ID_SENDCMD = 0x10, /// < 接收上位机下发的命令
 };
 
 enum {
@@ -122,5 +128,5 @@ uint8_t yplot_readdatas(uint8_t *data, uint16_t len);
  * \param data_ptr  解析到的数据的指针,该指针在下一次调用yplot_analyse函数时有效 (该指针指向 yplot_config_t.rxbuffer 中的数据, 不需要用户申请内存和释放内存)
  * \return uint8_t  YPLOT_OK: 成功, YPLOT_ERR: 失败, YPLOT_NONE: 没有解析到数据
  */
-uint8_t yplot_analyse(uint8_t *id,uint16_t *data_len, uint8_t **data_ptr);
+uint8_t yplot_analyse(yplot_rxframe_t *rxframe);
 #endif // _YPLOT_H_

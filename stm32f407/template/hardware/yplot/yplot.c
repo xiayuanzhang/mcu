@@ -158,12 +158,13 @@ uint8_t yplot_readdata(uint8_t data)
     if(!init_success){
         return YPLOT_ERR;
     }
-    
-    if(m_rxqueue.tail == (m_rxqueue.head + 1) % m_rxqueue.rxbuffer_len){
+    uint16_t tail = (m_rxqueue.tail+ 1) % m_rxqueue.rxbuffer_len;
+		
+    if(tail == m_rxqueue.head ){
         return YPLOT_FULL;
     }
     m_rxqueue.rxbuffer[m_rxqueue.tail] = data;
-    m_rxqueue.tail = (m_rxqueue.tail + 1) % m_rxqueue.rxbuffer_len;
+    m_rxqueue.tail = tail;
     return YPLOT_OK;
 }
 
@@ -183,7 +184,7 @@ uint8_t yplot_readdatas(uint8_t *data, uint16_t len)
 }
 
 
-uint8_t yplot_analyse(uint8_t *id,uint16_t *data_len, uint8_t **data_ptr)
+uint8_t yplot_analyse(yplot_rxframe_t *rxframe)
 {
     if(!init_success){
         return YPLOT_ERR;
@@ -191,6 +192,7 @@ uint8_t yplot_analyse(uint8_t *id,uint16_t *data_len, uint8_t **data_ptr)
 
     //再一次调用该解析函数时, 认为上一帧数据以及处理完成, 因此丢弃上一帧数据
     m_rxqueue.head = (m_rxqueue.head + m_rxqueue.last_analysis_len) % m_rxqueue.rxbuffer_len;
+	m_rxqueue.last_analysis_len = 0;//清除
     
     //计算当前缓存区中的数据长度
     int buffer_len = m_rxqueue.tail - m_rxqueue.head;
@@ -203,13 +205,14 @@ uint8_t yplot_analyse(uint8_t *id,uint16_t *data_len, uint8_t **data_ptr)
         if(m_rxqueue.rxbuffer[m_rxqueue.head] != 0xAA){
             m_rxqueue.head = (m_rxqueue.head + 1) % m_rxqueue.rxbuffer_len; //丢弃一个字节
         }else{
+            rxframe->id = m_rxqueue.rxbuffer[m_rxqueue.head + 1];
+            rxframe->len = m_rxqueue.rxbuffer[m_rxqueue.head + 2] + (m_rxqueue.rxbuffer[m_rxqueue.head + 3] << 8);
+            if(rxframe->len + 4 > buffer_len){
+                return YPLOT_NONE;
+            }
+            rxframe->data = m_rxqueue.rxbuffer + m_rxqueue.head + 4;
 
-            *id = m_rxqueue.rxbuffer[m_rxqueue.head + 1];
-            *data_ptr = m_rxqueue.rxbuffer + m_rxqueue.head + 4;
-            *data_len = m_rxqueue.rxbuffer[m_rxqueue.head + 2] + (m_rxqueue.rxbuffer[m_rxqueue.head + 3] << 8);
-
-            m_rxqueue.last_analysis_len = *data_len + 4; //记录上一次解析成功的数据的长度(data_len+4)
-
+            m_rxqueue.last_analysis_len = rxframe->len + 4; //记录上一次解析成功的数据的长度(data_len+4)
             return YPLOT_OK;
         }
     }
