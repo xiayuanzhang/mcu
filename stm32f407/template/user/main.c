@@ -22,7 +22,7 @@ int main(void)
         //	  delay(0.5);
         //		LED0 = 0;
         //		delay(0.5);
-        x += 0.1f;
+        x += 0.01f;
         for (int i = 0; i < 8; i++)
         {
             plot[i] = sin(x + i);
